@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: eposea
+testFramework: junit
+sourceLanguage: kotlin
+buildTool: gradle_kotlin
+features: [ annotation-api, app-name, coherence, coherence-grpc-client, data, data-jdbc, gradle, http-client, jackson-databind, jdbc-hikari, jetty-server, junit, kotlin, kotlin-application, kotlin-build, kotlin-extension-functions, micronaut-build, postgres, readme, shade, slf4j-simple, testcontainers, yaml ]
