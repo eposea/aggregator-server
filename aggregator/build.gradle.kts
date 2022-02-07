@@ -9,8 +9,8 @@ plugins {
 version = "0.1"
 group = "eposea"
 
-val kotlinVersion = project.properties.get("kotlinVersion")
-val coherenceVersion = project.properties.get("coherenceVersion")
+val kotlinVersion = project.properties["kotlinVersion"]
+val coherenceVersion = project.properties["coherenceVersion"]
 
 repositories {
     mavenCentral()
