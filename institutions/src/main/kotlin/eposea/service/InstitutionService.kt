@@ -12,7 +12,9 @@ interface InstitutionService {
     class Base(private val institutionRepository: InsitutionRepository) : InstitutionService {
 
         private companion object {
+
             private val urlValidator: UrlValidator = UrlValidator()
+
             fun isValidUrl(url: String): Boolean =
                 urlValidator.isValid(url)
 
