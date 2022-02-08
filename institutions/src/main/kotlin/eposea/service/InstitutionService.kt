@@ -1,15 +1,15 @@
 package eposea.service
 
-import eposea.domain.InsitutionDto
 import eposea.domain.Institution
-import eposea.repository.InsitutionRepository
+import eposea.domain.InstitutionDto
+import eposea.repository.InstitutionRepository
 import jakarta.inject.Singleton
 import org.apache.commons.validator.routines.UrlValidator
 
 interface InstitutionService {
 
     @Singleton
-    class Base(private val institutionRepository: InsitutionRepository) : InstitutionService {
+    class Base(private val institutionRepository: InstitutionRepository) : InstitutionService {
 
         private companion object {
 
@@ -23,7 +23,7 @@ interface InstitutionService {
         fun findAll(): List<Institution> =
             institutionRepository.findAll()
 
-        fun save(institutionDto: InsitutionDto): Institution? =
+        fun save(institutionDto: InstitutionDto): Institution? =
             if (isValidUrl(institutionDto.url)) {
                 val institution = Institution(institutionDto.id, institutionDto.url)
                 institutionRepository.save(institution)

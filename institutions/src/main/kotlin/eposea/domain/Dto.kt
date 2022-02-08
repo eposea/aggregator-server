@@ -1,3 +1,3 @@
 package eposea.domain
 
-data class InsitutionDto(val id: String, val url: String)
+data class InstitutionDto(val id: String, val url: String)
