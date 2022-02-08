@@ -14,6 +14,7 @@ interface InstitutionService {
         private companion object {
 
             private val urlValidator: UrlValidator = UrlValidator()
+
             fun isValidUrl(url: String): Boolean =
                 urlValidator.isValid(url)
 
@@ -29,6 +30,6 @@ interface InstitutionService {
             } else {
                 throw IllegalArgumentException("url is invalid")
             }
-            
+
     }
 }

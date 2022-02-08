@@ -2,7 +2,7 @@ micronaut:
   application:
     name: aggregatorServer
   server:
-      port: 9989
+    port: 9989
 datasources:
   default:
     url: jdbc:postgresql://localhost:5432/aggregator_database
