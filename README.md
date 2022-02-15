@@ -1,3 +1,2 @@
 # aggregator-server
-Aggregator server for EPOSEA
-🎠
+Aggregator server for EPOSEA 🎠
