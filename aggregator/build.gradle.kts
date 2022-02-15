@@ -111,11 +111,13 @@ protobuf {
 
 sourceSets {
     main {
+        proto {
+            srcDirs("src/common/proto")
+        }
         java {
             srcDirs("build/generated/source/proto/main/grpc")
             srcDirs("build/generated/source/proto/main/grpckt")
             srcDirs("build/generated/source/proto/main/java")
-            srcDirs("src/common/proto")
         }
     }
 }
