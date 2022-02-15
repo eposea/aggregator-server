@@ -1,0 +1,4 @@
+[submodule "aggregator/src/common"]
+	path = aggregator/src/common
+	url = https://github.com/eposea/backend-common.git
+	branch = develop
