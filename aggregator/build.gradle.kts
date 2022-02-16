@@ -19,13 +19,16 @@ val grpcVersion = "1.44.0"
 val grpcKotlinVersion = "1.2.1"
 val protobufVersion = "3.19.2"
 val protocVersion = protobufVersion
+val mapstructVersion = "1.5.0.Beta2"
 
 repositories {
     mavenCentral()
 }
 dependencies {
+
     kapt("io.micronaut:micronaut-http-validation")
     kapt("io.micronaut.data:micronaut-data-processor")
+    kapt("org.mapstruct:mapstruct-processor:${mapstructVersion}")
     implementation("com.oracle.coherence.ce:coherence:${coherenceVersion}")
     implementation("com.oracle.coherence.ce:coherence-java-client:${coherenceVersion}")
     implementation("io.micronaut:micronaut-http-client")
@@ -42,13 +45,17 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     implementation("io.grpc:grpc-protobuf:${grpcVersion}")
     implementation("io.grpc:grpc-stub:${grpcVersion}")
-    implementation("io.grpc:grpc-kotlin-stub:${grpcKotlinVersion}")
+//    implementation("io.grpc:grpc-kotlin-stub:${grpcKotlinVersion}")
+    implementation("org.mapstruct:mapstruct:${mapstructVersion}")
+    implementation("io.micronaut:micronaut-validation")
+//    api("io.grpc:grpc-kotlin-stub:${grpcKotlinVersion}")
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("org.slf4j:slf4j-simple")
+//    compileOnly("org.mapstruct:mapstruct-jdk8:${mapstructVersion}")
+//    compileOnly("org.mapstruct:mapstruct-processor:${mapstructVersion}")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
-    implementation("io.micronaut:micronaut-validation")
 
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
@@ -56,7 +63,7 @@ dependencies {
 
 
 application {
-    mainClass.set("eposea.ApplicationKt")
+    mainClass.set("eposea.AggregatorKt")
 }
 java {
     sourceCompatibility = JavaVersion.toVersion("11")
@@ -92,19 +99,19 @@ protobuf {
         id("grpc") {
             artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
         }
-        id("grpckt") {
-            artifact = "io.grpc:protoc-gen-grpc-kotlin:${grpcKotlinVersion}:jdk7@jar"
-        }
+//        id("grpckt") {
+//            artifact = "io.grpc:protoc-gen-grpc-kotlin:${grpcKotlinVersion}:jdk7@jar"
+//        }
     }
     generateProtoTasks {
         all().forEach {
             it.plugins {
                 id("grpc")
-                id("grpckt")
+//                id("grpckt")
             }
-            it.builtins {
-                id("kotlin")
-            }
+//            it.builtins {
+//                id("kotlin")
+//            }
         }
     }
 }
