@@ -1,6 +1,6 @@
 micronaut:
   application:
-    name: aggregatorServer
+    name: aggregator
   server:
     port: 9989
     context-path: /aggregator
@@ -13,6 +13,11 @@ datasources:
     password: ${DB_PASSWORD:root}
     schema-generate: VALIDATE
     dialect: POSTGRES
+
+netty:
+  default:
+    allocator:
+      max-order: 3
 
 jpa.default.properties.hibernate.hbm2ddl.auto: update
 

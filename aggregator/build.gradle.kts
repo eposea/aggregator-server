@@ -43,6 +43,10 @@ dependencies {
     implementation("org.mapstruct:mapstruct:${mapstructVersion}")
     implementation("io.micronaut:micronaut-validation")
     implementation("javax.inject:javax.inject:1")
+    implementation("com.github.javafaker:javafaker:1.0.2") {
+        exclude("org.yaml", "snakeyaml")
+    }
+    implementation("org.yaml:snakeyaml:1.30")
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("org.slf4j:slf4j-simple")
     testImplementation("org.testcontainers:junit-jupiter")
@@ -74,7 +78,7 @@ tasks {
 }
 graalvmNative.toolchainDetection.set(false)
 micronaut {
-    runtime("jetty")
+    runtime("netty")
     testRuntime("junit5")
     processing {
         incremental(true)
