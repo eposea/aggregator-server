@@ -23,6 +23,12 @@ class StubStorage {
         generateInstitutions()
     }
 
+    fun generateItemId(): String =
+        faker.idNumber().ssnValid()
+
+    fun generateCourseId(): String =
+        faker.aquaTeenHungerForce().character()
+
     private fun generateInstitutions(): List<InstitutionDto> =
         (1..faker.random().nextInt(4, 10))
             .map { generateInstitution() }
@@ -56,7 +62,7 @@ class StubStorage {
             .map { generateCourse() }
 
     private fun generateCourse(): CourseDto {
-        val courseId = faker.aquaTeenHungerForce().character()
+        val courseId = generateCourseId()
         val courseDataDto = CourseDataDto(
             faker.ancient().god(),
             faker.lorem().paragraph(4),
@@ -82,7 +88,7 @@ class StubStorage {
             .map { generateItem() }
 
     private fun generateItem(): ItemDto {
-        val itemId = faker.idNumber().ssnValid()
+        val itemId = generateItemId()
         val itemDataDto = ItemDataDto(
             faker.dragonBall().character(),
             faker.lorem().paragraph(3)
