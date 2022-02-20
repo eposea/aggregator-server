@@ -1,16 +1,28 @@
 package eposea.controller
 
-import eposea.service.AggregatorService
+import eposea.domain.command.CreateCourseCommand
+import eposea.service.command.AggregatorCommandService
+import eposea.service.query.AggregatorQueryService
 import io.micronaut.http.MediaType
-import io.micronaut.http.annotation.Controller
-import io.micronaut.http.annotation.Get
-import io.micronaut.http.annotation.PathVariable
+import io.micronaut.http.annotation.*
+import javax.validation.Valid
 
 @Controller("/institutions/{institutionId}/courses", produces = [MediaType.APPLICATION_JSON])
-class CourseController(private val aggregatorService: AggregatorService) {
+open class CourseController(
+    private val aggregatorQueryService: AggregatorQueryService,
+    private val aggregatorCommandService: AggregatorCommandService
+) {
 
     @Get("/{courseId}")
     fun getCourse(@PathVariable institutionId: String, @PathVariable courseId: String) =
-        aggregatorService.getCourse(institutionId, courseId)
+        aggregatorQueryService.getCourse(institutionId, courseId)
+
+    @Post
+    open fun addCourse(
+        @PathVariable institutionId: String,
+        @Body @Valid createCourseCommand: CreateCourseCommand
+    ) =
+        aggregatorCommandService.addCourse(institutionId, createCourseCommand)
+
 
 }

@@ -1,4 +1,4 @@
-package eposea.client
+package eposea.client.query
 
 import eposea.domain.CourseDataDto
 import eposea.domain.InstitutionDataDto
@@ -9,11 +9,11 @@ import eposea.mapper.CourseMapper
 import eposea.mapper.InstitutionMapper
 import eposea.mapper.ItemMapper
 import eposea.service.InstitutionsService
-import eposea.service.LocalServiceGrpcClient
+import eposea.service.query.LocalServiceQueryGrpcClient
 import io.micronaut.context.annotation.Requires
 import jakarta.inject.Singleton
 
-interface InstitutionClient {
+interface InstitutionQueryClient {
 
     fun getInstitutions(): InstitutionsDto
 
@@ -30,7 +30,7 @@ interface InstitutionClient {
         private val institutionMapper: InstitutionMapper,
         private val courseMapper: CourseMapper,
         private val itemMapper: ItemMapper
-    ) : InstitutionClient {
+    ) : InstitutionQueryClient {
 
         companion object {
             private const val INSTITUTION_NOT_FOUND = "institution not found"
@@ -40,7 +40,7 @@ interface InstitutionClient {
             InstitutionsDto(
                 institutionsService.getInstitutionsUrl()
                     .map { url ->
-                        LocalServiceGrpcClient.Base(url)
+                        LocalServiceQueryGrpcClient.Base(url)
                             .use { it.getInstitution() }
                     }
                     .map { institutionMapper.toInstitutionDto(it) }
@@ -49,7 +49,7 @@ interface InstitutionClient {
         override fun getInstitutionData(institutionId: String): InstitutionDataDto {
             val institutionUrl = institutionsService.getInstitutionUrl(institutionId)
                 ?: throw NoDataAvailableException(INSTITUTION_NOT_FOUND)
-            val institution = LocalServiceGrpcClient.Base(institutionUrl)
+            val institution = LocalServiceQueryGrpcClient.Base(institutionUrl)
                 .use { it.getInstitution() }
             return institutionMapper.toInstitutionDataDto(institution)
         }
@@ -57,7 +57,7 @@ interface InstitutionClient {
         override fun getCourseData(institutionId: String, courseId: String): CourseDataDto {
             val institutionUrl = institutionsService.getInstitutionUrl(institutionId)
                 ?: throw IllegalArgumentException(INSTITUTION_NOT_FOUND)
-            val course = LocalServiceGrpcClient.Base(institutionUrl)
+            val course = LocalServiceQueryGrpcClient.Base(institutionUrl)
                 .use { it.getCourse(courseId) }
             return courseMapper.toCourseDataDto(course)
         }
@@ -65,7 +65,7 @@ interface InstitutionClient {
         override fun getItemData(institutionId: String, itemId: String): ItemDataDto {
             val institutionUrl = institutionsService.getInstitutionUrl(institutionId)
                 ?: throw IllegalArgumentException(INSTITUTION_NOT_FOUND)
-            val item = LocalServiceGrpcClient.Base(institutionUrl)
+            val item = LocalServiceQueryGrpcClient.Base(institutionUrl)
                 .use { it.getItem(itemId) }
             return itemMapper.toItemDataDto(item)
         }

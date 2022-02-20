@@ -1,6 +1,7 @@
-package eposea.client.stub
+package eposea.client.stub.query
 
-import eposea.client.InstitutionClient
+import eposea.client.query.InstitutionQueryClient
+import eposea.client.stub.StubStorage
 import eposea.domain.CourseDataDto
 import eposea.domain.InstitutionDataDto
 import eposea.domain.InstitutionsDto
@@ -12,7 +13,7 @@ import java.util.stream.Collectors
 
 @Singleton
 @Requires(env = ["dev"])
-class StubInstitutionClient(private val stubStorage: StubStorage) : InstitutionClient {
+class StubInstitutionQueryClient(private val stubStorage: StubStorage) : InstitutionQueryClient {
 
     companion object {
         const val INSTITUTION_NOT_FOUND = "institution not found"

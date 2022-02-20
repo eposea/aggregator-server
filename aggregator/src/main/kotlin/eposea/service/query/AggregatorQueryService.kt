@@ -1,13 +1,13 @@
-package eposea.service
+package eposea.service.query
 
-import eposea.client.InstitutionClient
+import eposea.client.query.InstitutionQueryClient
 import eposea.domain.CourseDataDto
 import eposea.domain.InstitutionDataDto
 import eposea.domain.InstitutionsDto
 import eposea.domain.ItemDataDto
 import jakarta.inject.Singleton
 
-interface AggregatorService {
+interface AggregatorQueryService {
 
     fun getInstitutions(): InstitutionsDto
 
@@ -19,20 +19,20 @@ interface AggregatorService {
 
     @Singleton
     class Base(
-        private val institutionClient: InstitutionClient
-    ) : AggregatorService {
+        private val institutionQueryClient: InstitutionQueryClient
+    ) : AggregatorQueryService {
 
         override fun getInstitutions(): InstitutionsDto =
-            institutionClient.getInstitutions()
+            institutionQueryClient.getInstitutions()
 
         override fun getInstitution(id: String): InstitutionDataDto =
-            institutionClient.getInstitutionData(id)
+            institutionQueryClient.getInstitutionData(id)
 
         override fun getCourse(institutionId: String, courseId: String): CourseDataDto =
-            institutionClient.getCourseData(institutionId, courseId)
+            institutionQueryClient.getCourseData(institutionId, courseId)
 
         override fun getItem(institutionId: String, itemId: String): ItemDataDto =
-            institutionClient.getItemData(institutionId, itemId)
+            institutionQueryClient.getItemData(institutionId, itemId)
 
     }
 
