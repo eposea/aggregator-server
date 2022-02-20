@@ -1,17 +1,19 @@
-package eposea.service
+package eposea.client
 
 import eposea.domain.CourseDataDto
 import eposea.domain.InstitutionDataDto
-import eposea.domain.InstitutionsResponseDto
+import eposea.domain.InstitutionsDto
 import eposea.domain.ItemDataDto
 import eposea.mapper.CourseMapper
 import eposea.mapper.InstitutionMapper
 import eposea.mapper.ItemMapper
+import eposea.service.InstitutionsService
+import eposea.service.LocalServiceGrpcClient
 import jakarta.inject.Singleton
 
-interface InstitutionClientService {
+interface InstitutionClient {
 
-    fun getInstitutions(): InstitutionsResponseDto
+    fun getInstitutions(): InstitutionsDto
 
     fun getInstitutionData(institutionId: String): InstitutionDataDto
 
@@ -21,15 +23,15 @@ interface InstitutionClientService {
 
     @Singleton
     class Base(
-        private val institutionService: InstitutionService,
+        private val institutionsService: InstitutionsService,
         private val institutionMapper: InstitutionMapper,
         private val courseMapper: CourseMapper,
         private val itemMapper: ItemMapper
-    ) : InstitutionClientService {
+    ) : InstitutionClient {
 
-        override fun getInstitutions(): InstitutionsResponseDto =
-            InstitutionsResponseDto(
-                institutionService.getInstitutionsUrl()
+        override fun getInstitutions(): InstitutionsDto =
+            InstitutionsDto(
+                institutionsService.getInstitutionsUrl()
                     .map { url ->
                         LocalServiceGrpcClient.Base(url)
                             .use { it.getInstitution() }
@@ -38,7 +40,7 @@ interface InstitutionClientService {
             )
 
         override fun getInstitutionData(institutionId: String): InstitutionDataDto {
-            val institutionUrl = institutionService.getInstitutionUrl(institutionId)
+            val institutionUrl = institutionsService.getInstitutionUrl(institutionId)
                 ?: throw IllegalArgumentException("aboba")
             val institution = LocalServiceGrpcClient.Base(institutionUrl)
                 .use { it.getInstitution() }
@@ -46,7 +48,7 @@ interface InstitutionClientService {
         }
 
         override fun getCourseData(institutionId: String, courseId: String): CourseDataDto {
-            val institutionUrl = institutionService.getInstitutionUrl(institutionId)
+            val institutionUrl = institutionsService.getInstitutionUrl(institutionId)
                 ?: throw IllegalArgumentException("aboba")
             val course = LocalServiceGrpcClient.Base(institutionUrl)
                 .use { it.getCourse(courseId) }
@@ -54,7 +56,7 @@ interface InstitutionClientService {
         }
 
         override fun getItemData(institutionId: String, itemId: String): ItemDataDto {
-            val institutionUrl = institutionService.getInstitutionUrl(institutionId)
+            val institutionUrl = institutionsService.getInstitutionUrl(institutionId)
                 ?: throw IllegalArgumentException("aboba")
             val item = LocalServiceGrpcClient.Base(institutionUrl)
                 .use { it.getItem(itemId) }

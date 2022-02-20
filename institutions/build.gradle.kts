@@ -11,7 +11,8 @@ version = "0.1"
 group = "eposea"
 
 val kotlinVersion = project.properties["kotlinVersion"]
-val coherenceVersion = project.properties["coherenceVersion"]
+val mapstructVersion = "1.5.0.Beta2"
+
 repositories {
     mavenCentral()
 }
@@ -19,13 +20,11 @@ repositories {
 dependencies {
     kapt("io.micronaut:micronaut-http-validation")
     kapt("io.micronaut.data:micronaut-data-processor")
-    implementation("com.oracle.coherence.ce:coherence:${coherenceVersion}")
-    implementation("com.oracle.coherence.ce:coherence-java-client:${coherenceVersion}")
+    kapt("org.mapstruct:mapstruct-processor:${mapstructVersion}")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut:micronaut-runtime")
-    implementation("io.micronaut.coherence:micronaut-coherence")
-    implementation("io.micronaut.coherence:micronaut-coherence-grpc-client")
+    implementation("io.micronaut.liquibase:micronaut-liquibase")
     implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
@@ -33,22 +32,23 @@ dependencies {
     implementation("jakarta.annotation:jakarta.annotation-api")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
+    implementation("org.mapstruct:mapstruct:${mapstructVersion}")
     implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation("commons-validator:commons-validator:1.7")
+    implementation("io.micronaut:micronaut-validation")
+    implementation("javax.inject:javax.inject:1")
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("org.slf4j:slf4j-simple")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
-    implementation("io.micronaut:micronaut-validation")
 
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
-
 }
 
 
 application {
-    mainClass.set("eposea.ApplicationKt")
+    mainClass.set("eposea.InstitutionsKt")
 }
 java {
     sourceCompatibility = JavaVersion.toVersion("11")

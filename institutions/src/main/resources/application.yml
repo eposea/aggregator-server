@@ -1,17 +1,27 @@
 micronaut:
   application:
     name: institutions
+  server:
+    port: 9988
+    context-path: /institution
+
 datasources:
   default:
-    url: ${JDBC_URL:`jdbc:postgresql://localhost:5432/aggregator_database`}
+    url: ${JDBC_URL:`jdbc:postgresql://localhost:5432/institutions_database`}
     driverClassName: org.postgresql.Driver
     username: ${DB_USER:root}
     password: ${DB_PASSWORD:root}
-    schema-generate: CREATE_DROP
+    schema-generate: VALIDATE
     dialect: POSTGRES
+
 netty:
   default:
     allocator:
       max-order: 3
+
 jpa.default.properties.hibernate.hbm2ddl.auto: update
-coherence.session.default.type: grpc
+
+liquibase:
+  datasources:
+    default:
+      change-log: db/changelog/changelog-master.yml

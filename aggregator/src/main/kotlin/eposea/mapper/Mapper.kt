@@ -9,26 +9,26 @@ import org.mapstruct.Mapper
 @Mapper(componentModel = "jsr330")
 interface InstitutionMapper {
 
-    fun toInstitutionDto(institution: Institution): InstitutionDto
+    fun toInstitutionDto(source: Institution): InstitutionDto
 
-    fun toInstitutionDataDto(institution: Institution): InstitutionDataDto
+    fun toInstitutionDataDto(source: Institution): InstitutionDataDto
 
 }
 
 @Mapper(componentModel = "jsr330")
 interface CourseMapper {
 
-    fun toCourseDto(course: Course): CourseDto
+    fun toCourseDto(source: Course): CourseDto
 
-    fun toCourseDataDto(course: Course): CourseDataDto
+    fun toCourseDataDto(source: Course): CourseDataDto
 
 }
 
 @Mapper(componentModel = "jsr330")
 interface ItemMapper {
 
-    fun toItemDto(item: Item): ItemDto
+    fun toItemDto(source: Item): ItemDto
 
-    fun toItemDataDto(item: Item): ItemDataDto
+    fun toItemDataDto(source: Item): ItemDataDto
 
 }

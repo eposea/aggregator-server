@@ -1,19 +1,20 @@
 package eposea.service
 
-import eposea.domain.InstitutionsResponseDto
+import eposea.client.InstitutionClient
+import eposea.domain.InstitutionsDto
 import jakarta.inject.Singleton
 
 interface AggregatorService {
 
-    fun getInstitutions(): InstitutionsResponseDto
+    fun getInstitutions(): InstitutionsDto
 
     @Singleton
     class Base(
-        private val institutionClientService: InstitutionClientService
+        private val institutionClient: InstitutionClient
     ) : AggregatorService {
 
-        override fun getInstitutions(): InstitutionsResponseDto =
-            institutionClientService.getInstitutions()
+        override fun getInstitutions(): InstitutionsDto =
+            institutionClient.getInstitutions()
 
     }
 
