@@ -3,6 +3,6 @@
 create table institution
 (
     id    text primary key not null,
-    title text             not null,
-    url   text             not null
+    title text unique      not null,
+    url   text unique      not null
 );
