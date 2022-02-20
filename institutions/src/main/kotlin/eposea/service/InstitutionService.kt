@@ -6,6 +6,7 @@ import eposea.mapper.InstitutionMapper
 import eposea.repository.InstitutionRepository
 import jakarta.inject.Singleton
 import org.apache.commons.validator.routines.UrlValidator
+import javax.transaction.Transactional
 
 interface InstitutionService {
 
@@ -16,6 +17,7 @@ interface InstitutionService {
     fun save(createInstitutionRequest: CreateInstitutionRequest): InstitutionDto
 
     @Singleton
+    @Transactional
     class Base(
         private val institutionRepository: InstitutionRepository,
         private val institutionMapper: InstitutionMapper
