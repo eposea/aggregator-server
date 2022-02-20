@@ -90,19 +90,12 @@ protobuf {
         id("grpc") {
             artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
         }
-//        id("grpckt") {
-//            artifact = "io.grpc:protoc-gen-grpc-kotlin:${grpcKotlinVersion}:jdk7@jar"
-//        }
     }
     generateProtoTasks {
         all().forEach {
             it.plugins {
                 id("grpc")
-//                id("grpckt")
             }
-//            it.builtins {
-//                id("kotlin")
-//            }
         }
     }
 }

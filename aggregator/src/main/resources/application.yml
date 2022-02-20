@@ -21,4 +21,4 @@ liquibase:
     default:
       change-log: db/changelog/changelog-master.yml
 
-#app.institutions-server-url: http://localhost:9988/institution
+app.institutions-server-url: ${APP_INSTITUTIONS_SERVER_URL:`http://localhost:9988/institution`}
