@@ -105,5 +105,4 @@ class StubStorage {
             .map { generateItem() }
     }
 
-
 }
