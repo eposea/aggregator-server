@@ -38,33 +38,33 @@ interface InstitutionQueryClient {
 
         override fun getInstitutions(): InstitutionsDto =
             InstitutionsDto(
-                institutionsService.getInstitutionsUrl()
-                    .map { url ->
-                        LocalServiceQueryGrpcClient.Base(url)
+                institutionsService.getInstitutions()
+                    .map { institution ->
+                        val institutionGrpc = LocalServiceQueryGrpcClient.Base(institution.url)
                             .use { it.getInstitution() }
+                        institutionMapper.toInstitutionDto(institutionGrpc, institution.id)
                     }
-                    .map { institutionMapper.toInstitutionDto(it) }
             )
 
         override fun getInstitutionData(institutionId: String): InstitutionDataDto {
-            val institutionUrl = institutionsService.getInstitutionUrl(institutionId)
-                ?: throw NoDataAvailableException(INSTITUTION_NOT_FOUND)
+            val institutionUrl = institutionsService.getInstitution(institutionId)
+                ?.url ?: throw NoDataAvailableException(INSTITUTION_NOT_FOUND)
             val institution = LocalServiceQueryGrpcClient.Base(institutionUrl)
                 .use { it.getInstitution() }
             return institutionMapper.toInstitutionDataDto(institution)
         }
 
         override fun getCourseData(institutionId: String, courseId: String): CourseDataDto {
-            val institutionUrl = institutionsService.getInstitutionUrl(institutionId)
-                ?: throw IllegalArgumentException(INSTITUTION_NOT_FOUND)
+            val institutionUrl = institutionsService.getInstitution(institutionId)
+                ?.url ?: throw IllegalArgumentException(INSTITUTION_NOT_FOUND)
             val course = LocalServiceQueryGrpcClient.Base(institutionUrl)
                 .use { it.getCourse(courseId) }
             return courseMapper.toCourseDataDto(course)
         }
 
         override fun getItemData(institutionId: String, itemId: String): ItemDataDto {
-            val institutionUrl = institutionsService.getInstitutionUrl(institutionId)
-                ?: throw IllegalArgumentException(INSTITUTION_NOT_FOUND)
+            val institutionUrl = institutionsService.getInstitution(institutionId)
+                ?.url ?: throw IllegalArgumentException(INSTITUTION_NOT_FOUND)
             val item = LocalServiceQueryGrpcClient.Base(institutionUrl)
                 .use { it.getItem(itemId) }
             return itemMapper.toItemDataDto(item)

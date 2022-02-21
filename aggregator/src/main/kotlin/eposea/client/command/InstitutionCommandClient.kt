@@ -28,8 +28,8 @@ interface InstitutionCommandClient {
             institutionId: String,
             createCourseCommand: CreateCourseCommand
         ): CourseDataDto {
-            val institutionUrl = institutionsService.getInstitutionUrl(institutionId)
-                ?: throw NoDataAvailableException(INSTITUTION_NOT_FOUND)
+            val institutionUrl = institutionsService.getInstitution(institutionId)
+                ?.url ?: throw NoDataAvailableException(INSTITUTION_NOT_FOUND)
             val course = LocalServiceCommandGrpcClient.Base(institutionUrl)
                 .use { it.addCourse(createCourseCommand) }
             return courseMapper.toCourseDataDto(course)

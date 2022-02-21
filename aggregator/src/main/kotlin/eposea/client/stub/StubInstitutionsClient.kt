@@ -11,12 +11,12 @@ class StubInstitutionsClient(private val stubStorage: StubStorage) : Institution
 
     override fun getInstitutions(): List<InstitutionClientDto> =
         stubStorage.institutionList
-            .map { InstitutionClientDto(it.id, it.name, it.name) }
+            .map { InstitutionClientDto(it.id, it.title, it.title) }
 
     override fun getInstitution(id: String): InstitutionClientDto? =
         stubStorage.institutionList
             .filter { it.id == id }
-            .map { InstitutionClientDto(it.id, it.name, it.name) }
+            .map { InstitutionClientDto(it.id, it.title, it.title) }
             .firstOrNull()
 
 }

@@ -2,7 +2,7 @@ package eposea.domain
 
 data class InstitutionsDto(val institutions: List<InstitutionDto>)
 
-data class InstitutionDto(val id: String, val name: String, val imageUrl: String?)
+data class InstitutionDto(val id: String, val title: String, val imageUrl: String?)
 
 data class InstitutionDataDto(
     val imageUrl: String?,
