@@ -2,6 +2,8 @@ package eposea.service
 
 import eposea.domain.CreateInstitutionRequest
 import eposea.domain.InstitutionDto
+import eposea.exception.InvalidUserInputException
+import eposea.exception.NoDataAvailableException
 import eposea.mapper.InstitutionMapper
 import eposea.repository.InstitutionRepository
 import jakarta.inject.Singleton
@@ -25,6 +27,9 @@ interface InstitutionService {
 
         private companion object {
 
+            const val INSTITUTION_NOT_FOUND = "institution not found"
+            const val INVALID_URL = "invalid url"
+
             private val urlValidator: UrlValidator = UrlValidator()
 
             fun isValidUrl(url: String): Boolean =
@@ -39,7 +44,7 @@ interface InstitutionService {
         override fun findById(id: String): InstitutionDto =
             institutionRepository.findById(id)
                 .map { institutionMapper.toInstitutionDto(it) }
-                .orElseThrow { throw IllegalArgumentException("aboba") }
+                .orElseThrow { throw NoDataAvailableException(INSTITUTION_NOT_FOUND) }
 
         override fun save(createInstitutionRequest: CreateInstitutionRequest): InstitutionDto =
             if (isValidUrl(createInstitutionRequest.url)) {
@@ -48,7 +53,7 @@ interface InstitutionService {
                 institutionRepository.save(institution)
                     .let { institutionMapper.toInstitutionDto(it) }
             } else {
-                throw IllegalArgumentException("aboba")
+                throw InvalidUserInputException(INVALID_URL)
             }
 
     }
