@@ -40,7 +40,7 @@ class StubInstitutionCommandClient(private val stubStorage: StubStorage) :
                     saveItems(it.items)
                 )
             }
-        val courseId = stubStorage.generateCourseId()
+        val courseId = StubStorage.generateCourseId()
         val courseDataDto = CourseDataDto(
             createCourseCommand.title,
             createCourseCommand.description,
@@ -56,7 +56,7 @@ class StubInstitutionCommandClient(private val stubStorage: StubStorage) :
 
     private fun saveItems(items: List<CreateCourseCommand.Section.Item>): List<ItemDto> {
         fun saveItem(itemDataDto: ItemDataDto): ItemDto {
-            val itemId = stubStorage.generateItemId()
+            val itemId = StubStorage.generateItemId()
             stubStorage.itemDataMap[itemId] = itemDataDto
             return ItemDto(
                 itemId,
