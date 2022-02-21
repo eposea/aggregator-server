@@ -16,87 +16,94 @@ class StubStorage {
     val courseDataMap: MutableMap<String, CourseDataDto> = mutableMapOf()
     val itemDataMap: MutableMap<String, ItemDataDto> = mutableMapOf()
 
-    private val faker: Faker = Faker.instance()
+    companion object {
+        private val faker: Faker = Faker.instance()
+
+        fun generateItemId(): String =
+            faker.idNumber().ssnValid()
+
+        fun generateCourseId(): String =
+            faker.aquaTeenHungerForce().character()
+    }
 
     @EventListener
     fun onStartup(event: StartupEvent) {
         generateInstitutions()
     }
 
-    fun generateItemId(): String =
-        faker.idNumber().ssnValid()
+    private fun generateInstitutions(): List<InstitutionDto> {
+        fun generateInstitution(): InstitutionDto {
+            val institutionId = faker.bothify("??????_????????_#####")
+            val photo =
+                "https://picsum.photos/${
+                    faker.random().nextInt(200, 1000)
+                }/${
+                    faker.random().nextInt(200, 1000)
+                }"
+            val institutionDataDto = InstitutionDataDto(
+                photo,
+                faker.cat().breed(),
+                faker.lorem().paragraph(15),
+                generateSections(),
+                generateCourses()
+            )
+            institutionDataMap[institutionId] = institutionDataDto
+            val institutionDto = InstitutionDto(
+                institutionId, institutionDataDto.title,
+                institutionDataDto.imageUrl
+            )
+            institutionList += institutionDto
+            return institutionDto
+        }
 
-    fun generateCourseId(): String =
-        faker.aquaTeenHungerForce().character()
-
-    private fun generateInstitutions(): List<InstitutionDto> =
-        (1..faker.random().nextInt(4, 10))
+        return (1..faker.random().nextInt(4, 10))
             .map { generateInstitution() }
-
-    private fun generateInstitution(): InstitutionDto {
-        val institutionId = faker.bothify("??????_????????_#####")
-        val photo =
-            "https://picsum.photos/${
-                faker.random().nextInt(200, 1000)
-            }/${
-                faker.random().nextInt(200, 1000)
-            }"
-        val institutionDataDto = InstitutionDataDto(
-            photo,
-            faker.cat().breed(),
-            faker.lorem().paragraph(15),
-            generateSections(),
-            generateCourses()
-        )
-        institutionDataMap[institutionId] = institutionDataDto
-        val institutionDto = InstitutionDto(
-            institutionId, institutionDataDto.title,
-            institutionDataDto.imageUrl
-        )
-        institutionList += institutionDto
-        return institutionDto
     }
 
-    private fun generateCourses(): List<CourseDto> =
-        (1..faker.random().nextInt(4, 10))
+    private fun generateCourses(): List<CourseDto> {
+        fun generateCourse(): CourseDto {
+            val courseId = generateCourseId()
+            val courseDataDto = CourseDataDto(
+                faker.ancient().god(),
+                faker.lorem().paragraph(4),
+                generateSections()
+            )
+            courseDataMap[courseId] = courseDataDto
+            return CourseDto(
+                courseId, courseDataDto.title
+            )
+        }
+
+        return (1..faker.random().nextInt(4, 10))
             .map { generateCourse() }
-
-    private fun generateCourse(): CourseDto {
-        val courseId = generateCourseId()
-        val courseDataDto = CourseDataDto(
-            faker.ancient().god(),
-            faker.lorem().paragraph(4),
-            generateSections()
-        )
-        courseDataMap[courseId] = courseDataDto
-        return CourseDto(
-            courseId, courseDataDto.title
-        )
     }
 
-    private fun generateSections(): List<SectionDto> =
-        (1..faker.random().nextInt(4, 10))
+    private fun generateSections(): List<SectionDto> {
+        fun generateSection() = SectionDto(
+            faker.lordOfTheRings().character(),
+            generateItems()
+        )
+
+        return (1..faker.random().nextInt(4, 10))
             .map { generateSection() }
-
-    private fun generateSection() = SectionDto(
-        faker.lordOfTheRings().character(),
-        generateItems()
-    )
-
-    private fun generateItems(): List<ItemDto> =
-        (1..faker.random().nextInt(4, 10))
-            .map { generateItem() }
-
-    private fun generateItem(): ItemDto {
-        val itemId = generateItemId()
-        val itemDataDto = ItemDataDto(
-            faker.dragonBall().character(),
-            faker.lorem().paragraph(3)
-        )
-        itemDataMap[itemId] = itemDataDto
-        return ItemDto(
-            itemId, itemDataDto.title
-        )
     }
+
+    private fun generateItems(): List<ItemDto> {
+        fun generateItem(): ItemDto {
+            val itemId = generateItemId()
+            val itemDataDto = ItemDataDto(
+                faker.dragonBall().character(),
+                faker.lorem().paragraph(3)
+            )
+            itemDataMap[itemId] = itemDataDto
+            return ItemDto(
+                itemId, itemDataDto.title
+            )
+        }
+
+        return (1..faker.random().nextInt(4, 10))
+            .map { generateItem() }
+    }
+
 
 }
