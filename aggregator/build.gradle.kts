@@ -11,6 +11,12 @@ plugins {
     id("com.google.protobuf") version "0.8.18"
 }
 
+kapt {
+    arguments {
+        arg("micronaut.openapi.views.spec", "swagger-ui.enabled=true,swagger-ui.theme=material")
+    }
+}
+
 version = "0.1"
 group = "eposea"
 
@@ -28,6 +34,7 @@ dependencies {
     kapt("io.micronaut:micronaut-http-validation")
     kapt("io.micronaut.data:micronaut-data-processor")
     kapt("org.mapstruct:mapstruct-processor:${mapstructVersion}")
+    kapt("io.micronaut.openapi:micronaut-openapi:4.0.0")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut:micronaut-runtime")
@@ -47,6 +54,7 @@ dependencies {
         exclude("org.yaml", "snakeyaml")
     }
     implementation("org.yaml:snakeyaml:1.30")
+    implementation("io.swagger.core.v3:swagger-annotations")
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("org.slf4j:slf4j-simple")
     testImplementation("org.testcontainers:junit-jupiter")

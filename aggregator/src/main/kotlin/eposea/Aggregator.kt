@@ -8,4 +8,3 @@ fun main(args: Array<String>) {
         .packages("eposea")
         .start()
 }
-

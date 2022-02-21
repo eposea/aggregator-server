@@ -23,11 +23,8 @@ class StubInstitutionCommandClient(private val stubStorage: StubStorage) :
     ): CourseDataDto {
         val institution = stubStorage.institutionDataMap[institutionId]
             ?: throw NoDataAvailableException(INSTITUTION_NOT_FOUND)
-        val (imageUrl, title, description, sections, courses) = institution
         val saveCourse = saveCourse(createCourseCommand)
-        val newInstitution = InstitutionDataDto(
-            imageUrl, title, description, sections, courses + saveCourse.first
-        )
+        val newInstitution = institution.copy(courses = institution.courses + saveCourse.first)
         stubStorage.institutionDataMap[institutionId] = newInstitution
         return saveCourse.second
     }
