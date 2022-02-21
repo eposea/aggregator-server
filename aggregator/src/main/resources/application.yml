@@ -1,14 +1,29 @@
 micronaut:
   application:
-    name: aggregatorServer
+    name: aggregator
   server:
     port: 9989
+    context-path: /aggregator
+
 datasources:
   default:
-    url: jdbc:postgresql://localhost:5432/aggregator_database
+    url: ${JDBC_URL:`jdbc:postgresql://localhost:5432/aggregator_database`}
     driverClassName: org.postgresql.Driver
-    username: root
-    password: root
-    schema-generate: CREATE_DROP
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:root}
+    schema-generate: VALIDATE
     dialect: POSTGRES
-coherence.session.default.type: grpc
+
+netty:
+  default:
+    allocator:
+      max-order: 3
+
+jpa.default.properties.hibernate.hbm2ddl.auto: update
+
+liquibase:
+  datasources:
+    default:
+      change-log: db/changelog/changelog-master.yml
+
+app.institutions-server-url: ${APP_INSTITUTIONS_SERVER_URL:`http://localhost:9988/institution`}
